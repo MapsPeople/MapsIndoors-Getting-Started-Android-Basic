@@ -122,7 +122,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         if (mMapView != null) {
-            //TODO: Init mapControl here
+            //TODO: Init MapControl here
         }
     }
 
@@ -134,6 +134,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.standardBottomSheet, newFragment).commit();
         currentFragment = newFragment;
+        //Set the map padding to the height of the bottom sheets peek height. To not obfuscate the google logo.
+        runOnUiThread(()-> {
+            mMapControl.setMapPadding(0, 0,0,btmnSheetBehavior.getPeekHeight());
+            if (btmnSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
+                btmnSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+        });
     }
 
     void removeFragmentFromBottomSheet(Fragment fragment) {
@@ -141,5 +148,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             currentFragment = null;
         }
         getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        runOnUiThread(()-> {
+            mMapControl.setMapPadding(0,0,0,0);
+        });
     }
 }
