@@ -10,18 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.mapsindoors.mapssdk.RouteLeg;
-import com.mapsindoors.mapssdk.RouteStep;
+import com.mapsindoors.mapssdk.MPRouteLeg;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link com.example.mapsindoorsgettingstarted.RouteLegFragment#newInstance} factory method to
+ * Use the {@link RouteLegFragment#newInstance(MPRouteLeg)} factory method to
  * create an instance of this fragment.
  */
 public class RouteLegFragment extends Fragment {
-    private RouteLeg mRouteLeg;
+    private MPRouteLeg mRouteLeg;
 
-    public static RouteLegFragment newInstance(RouteLeg routeLeg) {
+    public static RouteLegFragment newInstance(MPRouteLeg routeLeg) {
         RouteLegFragment fragment = new RouteLegFragment();
         fragment.mRouteLeg = routeLeg;
         return fragment;

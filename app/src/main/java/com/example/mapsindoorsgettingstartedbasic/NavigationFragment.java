@@ -13,9 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.mapsindoors.mapssdk.Route;
+import com.mapsindoors.mapssdk.MPRoute;
 
-import java.util.concurrent.TimeUnit;
 
 /**
  * <p>A fragment that shows a list of items as a modal bottom sheet.</p>
@@ -25,10 +24,10 @@ import java.util.concurrent.TimeUnit;
  * </pre>
  */
 public class NavigationFragment extends Fragment {
-    private Route mRoute;
+    private MPRoute mRoute;
     private MapsActivity mMapsActivity;
 
-    public static NavigationFragment newInstance(Route route, MapsActivity mapsActivity) {
+    public static NavigationFragment newInstance(MPRoute route, MapsActivity mapsActivity) {
         final NavigationFragment fragment = new NavigationFragment();
         fragment.mRoute = route;
         fragment.mMapsActivity = mapsActivity;

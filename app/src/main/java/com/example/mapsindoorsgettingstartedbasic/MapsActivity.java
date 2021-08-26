@@ -1,9 +1,5 @@
 package com.example.mapsindoorsgettingstartedbasic;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,15 +8,19 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.textfield.TextInputEditText;
 import com.mapsindoors.mapssdk.MPDirectionsRenderer;
-import com.mapsindoors.mapssdk.MPRoutingProvider;
+import com.mapsindoors.mapssdk.MPDirectionsService;
+import com.mapsindoors.mapssdk.MPPoint;
 import com.mapsindoors.mapssdk.MapControl;
-import com.mapsindoors.mapssdk.Point;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -29,9 +29,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private View mMapView;
     private ImageButton mSearchBtn;
     private TextInputEditText mSearchTxtField;
-    private MPRoutingProvider mpRoutingProvider;
+    private MPDirectionsService mpRoutingProvider;
     private MPDirectionsRenderer mpDirectionsRenderer;
-    private Point mUserLocation = new Point(38.897389429704695, -77.03740973527613,0);
+    private MPPoint mUserLocation = new MPPoint(38.897389429704695, -77.03740973527613, 0);
     private NavigationFragment mNavigationFragment;
     private SearchFragment mSearchFragment;
     private Fragment mCurrentFragment;
@@ -89,7 +89,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                         //Clears the map if any searches has been done.
                         if (mMapControl != null) {
-                            mMapControl.clearMap();
+                            mMapControl.clearFilter();
                         }
                         //Removes the current fragment from the BottomSheet.
                         removeFragmentFromBottomSheet(mCurrentFragment);
@@ -108,7 +108,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         if (mMapView != null) {
-            //TODO: Init MapControl here
+            //TODO: Create MapControl here
         }
     }
 
@@ -121,8 +121,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         getSupportFragmentManager().beginTransaction().replace(R.id.standardBottomSheet, newFragment).commit();
         mCurrentFragment = newFragment;
         //Set the map padding to the height of the bottom sheets peek height. To not obfuscate the google logo.
-        runOnUiThread(()-> {
-            mMapControl.setMapPadding(0, 0,0, mBtmnSheetBehavior.getPeekHeight());
+        runOnUiThread(() -> {
+            mMapControl.setMapPadding(0, 0, 0, mBtmnSheetBehavior.getPeekHeight());
             if (mBtmnSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
                 mBtmnSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             }
@@ -134,8 +134,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mCurrentFragment = null;
         }
         getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-        runOnUiThread(()-> {
-            mMapControl.setMapPadding(0,0,0,0);
+        runOnUiThread(() -> {
+            mMapControl.setMapPadding(0, 0, 0, 0);
         });
     }
 }
